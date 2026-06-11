@@ -1,0 +1,55 @@
+{
+  "BucketCORSRules": {
+    "_comment": "Apply this CORS config to your S3 bucket via AWS Console → Bucket → Permissions → CORS",
+    "CORSRules": [
+      {
+        "AllowedHeaders": ["*"],
+        "AllowedMethods": ["GET", "PUT", "POST"],
+        "AllowedOrigins": [
+          "http://localhost:3000",
+          "https://your-domain.com",
+          "https://mediadrop.vercel.app"
+        ],
+        "ExposeHeaders": ["ETag"],
+        "MaxAgeSeconds": 3600
+      }
+    ]
+  },
+
+  "BucketPolicy": {
+    "_comment": "Apply this bucket policy if using CloudFront. Otherwise presigned URLs handle access.",
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+        "Sid": "AllowCloudFrontRead",
+        "Effect": "Allow",
+        "Principal": {
+          "Service": "cloudfront.amazonaws.com"
+        },
+        "Action": "s3:GetObject",
+        "Resource": "arn:aws:s3:::mediadrop-files/*",
+        "Condition": {
+          "StringEquals": {
+            "AWS:SourceArn": "arn:aws:cloudfront::YOUR_ACCOUNT_ID:distribution/YOUR_DISTRIBUTION_ID"
+          }
+        }
+      }
+    ]
+  },
+
+  "IAMPolicyForAppServer": {
+    "_comment": "Attach this policy to the IAM user whose keys you put in .env",
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+        "Effect": "Allow",
+        "Action": [
+          "s3:PutObject",
+          "s3:GetObject",
+          "s3:DeleteObject"
+        ],
+        "Resource": "arn:aws:s3:::mediadrop-files/*"
+      }
+    ]
+  }
+}
