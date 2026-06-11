@@ -147,7 +147,6 @@ export default function IlmDrop() {
   const mediaRef = useRef(null);
   const fileInputRef = useRef(null);
 
-  const db = getSupabase();
   const project = projects.find(p => p.id === activeProjectId);
   const file    = project?.files?.find(f => f.id === activeFileId);
 
@@ -155,7 +154,7 @@ export default function IlmDrop() {
   useEffect(() => {
     async function load() {
       setLoadingProjects(true);
-      const { data, error } = await db
+      const { data, error } = await getSupabase()
         .from("projects")
         .select("*, files(*, comments(count))")
         .order("created_at", { ascending: false });
@@ -169,7 +168,7 @@ export default function IlmDrop() {
   useEffect(() => {
     if (!activeFileId) return;
     async function load() {
-      const { data } = await db.from("comments").select("*").eq("file_id", activeFileId).order("created_at", { ascending: true });
+      const { data } = await getSupabase().from("comments").select("*").eq("file_id", activeFileId).order("created_at", { ascending: true });
       if (data) setComments(data);
     }
     load();
@@ -199,7 +198,7 @@ export default function IlmDrop() {
   // ── create project ─────────────────────────────────────────────────────────
   const createProject = async () => {
     if (!newName.trim()) return;
-    const { data, error } = await db.from("projects").insert({ name: newName.trim(), status: "reviewing" }).select("*, files(*)").single();
+    const { data, error } = await getSupabase().from("projects").insert({ name: newName.trim(), status: "reviewing" }).select("*, files(*)").single();
     if (!error && data) {
       setProjects(prev => [{ ...data, files: [] }, ...prev]);
       setNewName(""); setCreating(false);
@@ -247,7 +246,7 @@ export default function IlmDrop() {
   // ── post comment ───────────────────────────────────────────────────────────
   const postComment = async () => {
     if (!commentText.trim() || !activeFileId) return;
-    const { data, error } = await db.from("comments").insert({
+    const { data, error } = await getSupabase().from("comments").insert({
       file_id: activeFileId,
       author_name: commentAuthor.trim() || "Anonymous",
       body: commentText.trim(),
@@ -262,13 +261,13 @@ export default function IlmDrop() {
 
   // ── update project status ─────────────────────────────────────────────────
   const setStatus = async (pid, status) => {
-    await db.from("projects").update({ status }).eq("id", pid);
+    await getSupabase().from("projects").update({ status }).eq("id", pid);
     setProjects(prev => prev.map(p => p.id === pid ? { ...p, status } : p));
   };
 
   // ── approve file ──────────────────────────────────────────────────────────
   const approveFile = async (fid) => {
-    await db.from("files").update({ is_final: true }).eq("id", fid);
+    await getSupabase().from("files").update({ is_final: true }).eq("id", fid);
     setProjects(prev => prev.map(p => p.id === activeProjectId
       ? { ...p, files: p.files.map(f => f.id === fid ? { ...f, is_final: true } : f) }
       : p
