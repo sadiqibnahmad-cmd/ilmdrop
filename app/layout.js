@@ -1,5 +1,5 @@
 export const metadata = {
-  title: "MediaDrop",
+  title: "ilmDrop",
   description: "Upload, share, and review media files with your team",
 };
 
