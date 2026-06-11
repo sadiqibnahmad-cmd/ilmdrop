@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { createServerClient } from "@/lib/supabase";
+import { createServerClient } from "../../lib/supabase";
 import { nanoid } from "nanoid";
 import bcrypt from "bcryptjs";
 

@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { createServerClient } from "@/lib/supabase";
-import { getUploadUrl, generateS3Key } from "@/lib/s3";
+import { createServerClient } from "../../lib/supabase";
+import { getUploadUrl, generateS3Key } from "../../lib/s3";
 import { nanoid } from "nanoid";
 
 export async function POST(request) {
