@@ -1,5 +1,5 @@
 -- ===========================================
--- MediaDrop Database Schema
+-- ilmDrop Database Schema
 -- Run this in Supabase SQL Editor (Dashboard → SQL Editor → New Query)
 -- ===========================================
 

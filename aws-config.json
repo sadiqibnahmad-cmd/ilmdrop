@@ -8,7 +8,7 @@
         "AllowedOrigins": [
           "http://localhost:3000",
           "https://your-domain.com",
-          "https://mediadrop.vercel.app"
+          "https://ilmdrop.vercel.app"
         ],
         "ExposeHeaders": ["ETag"],
         "MaxAgeSeconds": 3600
@@ -27,7 +27,7 @@
           "Service": "cloudfront.amazonaws.com"
         },
         "Action": "s3:GetObject",
-        "Resource": "arn:aws:s3:::mediadrop-files/*",
+        "Resource": "arn:aws:s3:::ilmdrop-files/*",
         "Condition": {
           "StringEquals": {
             "AWS:SourceArn": "arn:aws:cloudfront::YOUR_ACCOUNT_ID:distribution/YOUR_DISTRIBUTION_ID"
@@ -48,7 +48,7 @@
           "s3:GetObject",
           "s3:DeleteObject"
         ],
-        "Resource": "arn:aws:s3:::mediadrop-files/*"
+        "Resource": "arn:aws:s3:::ilmdrop-files/*"
       }
     ]
   }
