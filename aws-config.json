@@ -27,7 +27,7 @@
           "Service": "cloudfront.amazonaws.com"
         },
         "Action": "s3:GetObject",
-        "Resource": "arn:aws:s3:::ilmdrop-files/*",
+        "Resource": "arn:aws:s3:::ilmdrop/*",
         "Condition": {
           "StringEquals": {
             "AWS:SourceArn": "arn:aws:cloudfront::YOUR_ACCOUNT_ID:distribution/YOUR_DISTRIBUTION_ID"
@@ -48,7 +48,7 @@
           "s3:GetObject",
           "s3:DeleteObject"
         ],
-        "Resource": "arn:aws:s3:::ilmdrop-files/*"
+        "Resource": "arn:aws:s3:::ilmdrop/*"
       }
     ]
   }
