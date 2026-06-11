@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { createServerClient } from "../../../lib/supabase";
 import { getUploadUrl, generateS3Key } from "../../../lib/s3";
-import { nanoid } from "nanoid";
 
 export async function POST(request) {
   try {
@@ -38,7 +37,7 @@ export async function POST(request) {
     }
 
     // Create file record in DB
-    const fileId = nanoid(12);
+    const fileId = crypto.randomUUID();
     const s3Key = generateS3Key(projectId, fileId, filename);
 
     const { data: file, error: fileErr } = await db
